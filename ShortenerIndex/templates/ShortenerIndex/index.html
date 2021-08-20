@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Link Shortener</title>
+</head>
+
+
+<body>
+
+<h1>Link Shortener</h1>
+
+<form method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value='Generate link' />
+</form>
+{% if short_url|length > 0 %}
+<div>
+    <p>Generated URL:</p>
+    <p>{{ short_url }}</p>
+</div>
+{% endif %}
+
+
+</body>
+
+</html>

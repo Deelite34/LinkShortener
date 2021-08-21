@@ -23,12 +23,6 @@ class IndexView(View):
             'form': form,
         }
 
-        # checking if user exists/creating user, checking if he's allowed to shorten link
-        # TODO: TO CHECK IP OF CLIENT, REGISTER USER(client model)
-        print("IP address of client: ")
-        print(get_client_ip(request))
-        # this_user = Client.objects.filter
-
         # link shortening
         if form.is_valid():
             slug = ''.join(random.choice(string.ascii_letters) for x in range(10))  # todo: DRY(replace with function?)
@@ -41,12 +35,35 @@ class IndexView(View):
                     return HttpResponse("<h1>Failed to generate unique short link</h1>")  # todo: Use template here
                 attempt += 1
 
+            # check if user exists, create user if needed, check if he's allowed to shorten links
+            requester_ip = get_client_ip(request) # todo: maybe it's better to use hash of ip instead of ip
+            if not Client.objects.filter(client_address=requester_ip).exists():
+                new_client = Client(client_address=requester_ip)
+                new_client.save()
+            else:
+                existing_user = Client.objects.get(client_address=requester_ip)
+
+                # check if user is allowed to shorten links and return page with error if needed
+                if existing_user.is_banned is True:
+                    context['shortening_error'] = "You are banned from shortening links!"
+                    return render(request, 'ShortenerIndex/index.html', context=context)
+                if existing_user.urls_count >= 5:
+                    context['shortening_error'] = "You have reached 5 shortened links limit. " \
+                                                 "Remove at least one of your old links and try again!"
+                    return render(request, 'ShortenerIndex/index.html', context=context)
+
+                existing_user.urls_count += 1
+                existing_user.save()
+
             url = form.cleaned_data["url_input"]
-            new_url = Link(url_input=url, url_output=slug)
+            created_client = Client.objects.get(client_address=requester_ip)
+            new_url = Link(url_input=url, url_output=slug, client=new_client)
             new_url.save()
 
+            # Full url leading to shortened link
             shortened_url = request.build_absolute_uri('/l/' + slug)
 
+            # This will be displayed in the template as a result
             context['short_url'] = shortened_url
 
             return render(request, 'ShortenerIndex/index.html', context=context)

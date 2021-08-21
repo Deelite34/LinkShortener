@@ -19,6 +19,10 @@
     <p>Generated URL:</p>
     <p>{{ short_url }}</p>
 </div>
+{% elif shortening_error|length > 0 %}
+<div>
+    <p>{{ shortening_error }}</p>
+</div>
 {% endif %}
 
 

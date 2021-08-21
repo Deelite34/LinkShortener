@@ -7,7 +7,7 @@ from django.core.validators import RegexValidator
 
 
 class Client(models.Model):
-    urls_count = models.IntegerField(blank=True, default=0)
+    urls_count = models.IntegerField(blank=True, default=1)
     client_address = models.CharField(max_length=15, blank=True)
     is_banned = models.BooleanField(default=False)
 
@@ -31,4 +31,4 @@ class Link(models.Model):
                                                                      tzinfo=pytz.timezone('Europe/Berlin')))
 
     def __str__(self):
-        return f"{self.url_input} ({self.operation})"
+        return f"{self.url_input} ({self.id})"

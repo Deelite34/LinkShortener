@@ -38,26 +38,25 @@ class IndexView(View):
             # check if user exists, create user if needed, check if he's allowed to shorten links
             requester_ip = get_client_ip(request) # todo: maybe it's better to use hash of ip instead of ip
             if not Client.objects.filter(client_address=requester_ip).exists():
-                new_client = Client(client_address=requester_ip)
-                new_client.save()
+                selected_client = Client(client_address=requester_ip)
+                selected_client.save()
             else:
-                existing_user = Client.objects.get(client_address=requester_ip)
+                selected_client = Client.objects.get(client_address=requester_ip)
 
                 # check if user is allowed to shorten links and return page with error if needed
-                if existing_user.is_banned is True:
+                if selected_client.is_banned is True:
                     context['shortening_error'] = "You are banned from shortening links!"
                     return render(request, 'ShortenerIndex/index.html', context=context)
-                if existing_user.urls_count >= 5:
+                if selected_client.urls_count >= 5:
                     context['shortening_error'] = "You have reached 5 shortened links limit. " \
                                                  "Remove at least one of your old links and try again!"
                     return render(request, 'ShortenerIndex/index.html', context=context)
 
-                existing_user.urls_count += 1
-                existing_user.save()
+                selected_client.urls_count += 1
+                selected_client.save()
 
             url = form.cleaned_data["url_input"]
-            created_client = Client.objects.get(client_address=requester_ip)
-            new_url = Link(url_input=url, url_output=slug, client=new_client)
+            new_url = Link(url_input=url, url_output=slug, client=selected_client)
             new_url.save()
 
             # Full url leading to shortened link

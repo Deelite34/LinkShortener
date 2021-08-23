@@ -1,8 +1,9 @@
 import random
 import string
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from .forms import ShortenLinkForm
 from .models import Link, Client
@@ -12,9 +13,16 @@ class IndexView(View):
 
     def get(self, request):
         form = ShortenLinkForm()
+        client_ip = get_client_ip(request)
+        current_user_data = Link.objects.filter(client__client_address=client_ip).select_related('client')
+        print(current_user_data.query)
+        base_url = request.build_absolute_uri('/l/')
         context = {
             'form': form,
+            'current_user_data': current_user_data,
+            'base_url': base_url,
         }
+
         return render(request, 'ShortenerIndex/index.html', context=context)
 
     def post(self, request):
@@ -22,6 +30,14 @@ class IndexView(View):
         context = {
             'form': form,
         }
+
+        # Data for displaying users created short links
+        base_url = request.build_absolute_uri('/l/')
+        client_ip = get_client_ip(request)
+        current_user_data = Link.objects.filter(client__client_address=client_ip).select_related('client')
+
+        context['current_user_data'] = current_user_data
+        context['base_url'] = base_url
 
         # link shortening
         if form.is_valid():
@@ -65,9 +81,10 @@ class IndexView(View):
             # This will be displayed in the template as a result
             context['short_url'] = shortened_url
 
-            return render(request, 'ShortenerIndex/index.html', context=context)
-        else:
-            return render(request, 'ShortenerIndex/index.html', context=context)
+
+        return render(request, 'ShortenerIndex/index.html', context=context)
+
+
 
 
 class RedirectView(View):
@@ -83,6 +100,16 @@ class RedirectView(View):
         if data.url_input.startswith("http"):
             return HttpResponseRedirect(data.url_input)
         return HttpResponseRedirect("http://" + data.url_input)
+
+    def delete(self, request, url_output):
+        #TODO: decide how to implement deleting user links
+        client_ip = get_client_ip(request)
+        current_user_data = Link.objects.get(url_output=url_output).select_related('client')
+        if current_user_data.client_address == client_ip:
+            current_user_data.delete()
+            return HttpResponseRedirect(reverse('index'))
+        else:
+            return HttpResponseForbidden()
 
 
 def get_client_ip(request):

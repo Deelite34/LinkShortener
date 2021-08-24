@@ -116,7 +116,6 @@ class TestRedirectView(TestCase):
         url_to_output = "QWEQWEqweq"
         test_user = ClientTest.create_client()
         test_link = LinkTest.create_link(url_input=url_to_input, url_output=url_to_output, client_instance=test_user)
-        #created_link = Link.objects.get(url_input=url_to_input)
         subpage = reverse('redirect', args=[test_link.url_output])
         full_url = DOMAIN + subpage
         expected_url = f"{DOMAIN}/l/{url_to_output}/"

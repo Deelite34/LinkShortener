@@ -24,6 +24,7 @@
     <p>{{ shortening_error }}</p>
 </div>
 {% endif %}
+
 <table>
     <tr>
         <th colspan="3">Your shortened links</th>
@@ -38,7 +39,12 @@
         <th> {{ row.url_input }}</th>
         <th> <a href="{{ base_url }}{{ row.url_output }}">{{ base_url }}{{ row.url_output }}</a> </th>
         <th> {{ row.creation_date }}</th>
-        <th> <a href="">delete</a></th>
+        <th>
+             <form action="{% url 'redirect' row.url_output %}" method="POST">
+                 {% csrf_token %}
+                 <input type="submit" value="Confirm" />
+             </form>
+        </th>
     </tr>
   {% endfor %}
 </table>

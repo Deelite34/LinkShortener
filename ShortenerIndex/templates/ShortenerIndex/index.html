@@ -1,54 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
     <title>Link Shortener</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 
 <body>
 
-<h1>Link Shortener</h1>
 
-<form method='POST'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type='submit' value='Generate link' />
-</form>
-{% if short_url|length > 0 %}
-<div>
-    <p>Generated URL:</p>
-    <p>{{ short_url }}</p>
+<h1 class="text-center" style=" font-size:80px; margin-top:7%; margin-bottom:5%;">Link Shortener</h1>
+<div class="m-auto" style="">
+    <form method='POST' class="form-group text-center">
+        {% csrf_token %}
+        <div class="">
+            {{ form.as_p }}
+        </div>
+        <input type='submit' class="btn btn-primary input-large" style="width:15%;" value='Generate link'/>
+    </form>
+    {% if short_url|length > 0 %}
+    <div>
+        <p class="text-center">Generated URL:</p>
+        <p class="text-center">{{ short_url }}</p>
+    </div>
+    {% elif shortening_error|length > 0 %}
+    <div class="text-center">
+        <p>{{ shortening_error }}</p>
+    </div>
+    {% endif %}
+    <div class="text-center">
+    <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample"
+       aria-expanded="false" aria-controls="collapseExample">
+        Show my links
+    </a>
+    </div>
+
+    <div class="collapse" id="collapseExample">
+        <div class="well">
+            <div style="margin:auto; min-width:520px; max-width:670px; width:40%;">
+
+                <table class="" style="min-width:450px;">
+                    <tr class="">
+                        <th style="width:20%;">Link</th>
+                        <th style="width:20%;">Short link</th>
+                        <th style="width:20%;">Created</th>
+                        <th style="width:20%;"></th>
+                    </tr>
+
+
+                    {% for row in current_user_data %}
+                    <tr class="">
+                        <th class="col overflow-hidden text-nowrap"> {{ row.url_input }}</th>
+                        <th class="col overflow-hidden text-nowrap"><a href="{{ base_url }}{{ row.url_output }}">{{ base_url }}{{ row.url_output }}</a></th>
+                        <th class="col overflow-hidden text-nowrap"> {{ row.creation_date }}</th>
+                        <th class="col overflow-hidden text-nowrap">
+                            <form class="text-center" action="{% url 'redirect' row.url_output %}" method="POST">
+                                {% csrf_token %}
+                                <input class="trash-icon" type="submit" value=""/>
+                            </form>
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+    </div>
 </div>
-{% elif shortening_error|length > 0 %}
-<div>
-    <p>{{ shortening_error }}</p>
-</div>
-{% endif %}
 
-<table>
-    <tr>
-        <th colspan="3">Your shortened links</th>
-    </tr>
-    <tr>
-        <th>URL</th>
-        <th>Shortened URL</th>
-        <th>Creation date</th>
-    </tr>
-  {% for row in current_user_data %}
-    <tr>
-        <th> {{ row.url_input }}</th>
-        <th> <a href="{{ base_url }}{{ row.url_output }}">{{ base_url }}{{ row.url_output }}</a> </th>
-        <th> {{ row.creation_date }}</th>
-        <th>
-             <form action="{% url 'redirect' row.url_output %}" method="POST">
-                 {% csrf_token %}
-                 <input type="submit" value="Confirm" />
-             </form>
-        </th>
-    </tr>
-  {% endfor %}
-</table>
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{% static 'js/bootstrap.js' %}"></script>
 </body>
 
 </html>

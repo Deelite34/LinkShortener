@@ -25,7 +25,7 @@ class Link(models.Model):
     url_input = models.CharField(max_length=255, validators=[alphabetic])
     url_output = models.CharField(max_length=255, unique=True, blank=True)
     duration = models.IntegerField(blank=True, null=True)
-    creation_date = models.DateTimeField(auto_now=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
     expiration_date = models.DateTimeField(blank=True,
                                            default=datetime.datetime(2055, 12, 12,
                                                                      tzinfo=pytz.timezone('Europe/Berlin')))

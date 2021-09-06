@@ -12,6 +12,10 @@ from .utils.utils import random_sequence, get_client_ip
 class IndexView(View):
 
     def get(self, request):
+        """
+        Main webpage view accessed with GET request.
+        Displays empty form, tries to display user links
+        """
         form = ShortenLinkForm()
         client_ip = get_client_ip(request)
         current_user_data = Link.objects.filter(client__client_address=client_ip).select_related('client')
@@ -25,6 +29,12 @@ class IndexView(View):
         return render(request, 'ShortenerIndex/index.html', context=context)
 
     def post(self, request):
+        """
+        View for POST request with link shortening form on main webpage.
+        Checks if user is permited to generate links,
+        generates shortened link, creates client (user) in DB if needed.
+
+        """
         form = ShortenLinkForm(request.POST or None)
         context = {
             'form': form,

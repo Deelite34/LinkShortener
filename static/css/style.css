@@ -1,0 +1,27 @@
+.clipboard-icon {
+  background: url('icons/clipboard.svg');
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+}
+
+.clipboard-icon-check {
+  background: url('icons/clipboard-check.svg');
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+}
+
+.trash-icon {
+  background: url('icons/trash.svg');
+  background-repeat: no-repeat;
+  width: 26px;
+  height: 26px;
+  border-style: none;
+  background-size: 100% 100%;
+}
+
+.form-input-url{
+  width: 30%;
+}
+

@@ -6,20 +6,23 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 
 <body>
 
 
-<h1 class="text-center" style=" font-size:80px; margin-top:7%; margin-bottom:5%;">Link Shortener</h1>
-<div class="m-auto" style="">
+<h1 class="text-center logo">Link Shortener</h1>
+<div class="m-auto">
     <form method='POST' class="form-group text-center">
         {% csrf_token %}
-        <div class="">
-            {{ form.as_p }}
-        </div>
-        <input type='submit' class="btn btn-primary input-large" style="width:15%;" value='Generate link'/>
+        {{ form.as_p }}
+        <input type='submit' class="btn btn-primary button-generate-link" value='Generate link'/>
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+           aria-controls="collapseExample">
+            My links
+        </a>
     </form>
     {% if short_url|length > 0 %}
     <div>
@@ -31,32 +34,27 @@
         <p>{{ shortening_error }}</p>
     </div>
     {% endif %}
-    <div class="text-center">
-    <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample"
-       aria-expanded="false" aria-controls="collapseExample">
-        Show my links
-    </a>
-    </div>
 
     <div class="collapse" id="collapseExample">
-        <div class="well">
-            <div style="margin:auto; min-width:520px; max-width:670px; width:40%;">
+        <div class="well table-overflowx-scrolbar">
+            <div class="table-my-links">
 
-                <table class="" style="min-width:450px;">
+                <table>
                     <tr class="">
-                        <th style="width:20%;">Link</th>
-                        <th style="width:20%;">Short link</th>
-                        <th style="width:20%;">Created</th>
-                        <th style="width:20%;"></th>
+                        <th class="table-col-descriptions">Link</th>
+                        <th class="table-col-descriptions">Short link</th>
+                        <th class="table-col-descriptions">Created</th>
+                        <th class="table-col-descriptions"></th>
                     </tr>
 
 
                     {% for row in current_user_data %}
-                    <tr class="">
-                        <th class="col overflow-hidden text-nowrap"> {{ row.url_input }}</th>
-                        <th class="col overflow-hidden text-nowrap"><a href="{{ base_url }}{{ row.url_output }}">{{ base_url }}{{ row.url_output }}</a></th>
-                        <th class="col overflow-hidden text-nowrap"> {{ row.creation_date }}</th>
-                        <th class="col overflow-hidden text-nowrap">
+                    <tr>
+                        <th class="text-nowrap table-field-overflow-left"> {{ row.url_input }}</th>
+                        <th class="text-nowrap table-field-overflow-left"><a href="{{ base_url }}{{ row.url_output }}">
+                            {{ base_url }}{{ row.url_output }}</a></th>
+                        <th class="text-nowrap table-field-overflow-left"> {{ row.creation_date|date:"G:i d.m.Y" }}</th>
+                        <th class="text-nowrap table-field-overflow-left">
                             <form class="text-center" action="{% url 'redirect' row.url_output %}" method="POST">
                                 {% csrf_token %}
                                 <input class="trash-icon" type="submit" value=""/>
@@ -65,7 +63,6 @@
                     </tr>
                     {% endfor %}
                 </table>
-
             </div>
         </div>
     </div>

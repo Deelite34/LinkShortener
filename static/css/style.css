@@ -22,6 +22,38 @@
 }
 
 .form-input-url{
-  width: 30%;
+  width: max(20%, 230px);
+
 }
 
+.logo {
+  font-size:max(4vw,50px);
+  margin-top: max(50px, 10%);
+  margin-bottom: max(80px, 5%);
+}
+
+.button-generate-link {
+  width:150px;
+}
+
+.table-col-descriptions {
+  width: 20%;
+}
+
+.table-my-links{
+  margin: auto;
+  padding: 0px;
+  min-width:520px;
+  max-width:670px;
+  width: 40%;
+}
+
+.table-field-overflow-left{
+  overflow: hidden;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.table-overflowx-scrolbar {
+  overflow-y: auto;
+}

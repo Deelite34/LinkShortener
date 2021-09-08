@@ -6,7 +6,7 @@
 
 
 Website that allows you to create and share shortened links, after inputting your URL. 
-Uses bootstrap for frot-end, postgresql for database and django for back-end.
+Uses bootstrap for front-end, postgresql for database and django for back-end.
 
 # Installation
 Requires docker and docker-compose installed  

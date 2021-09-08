@@ -27,22 +27,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
+POSTGRES_USER = None
+POSTGRES_PASSWORD = None
 load_dotenv(find_dotenv('variables.env'))
 
 if os.path.exists('variables.env'):
     SECRET_KEY = str(os.getenv('SECRET_KEY'))
-    DB_USER = str(os.getenv('LS_USER'))
-    DB_PASS = str(os.getenv('LS_PASS'))
+    POSTGRES_USER = str(os.getenv('POSTGRES_USER'))
+    POSTGRES_PASSWORD = str(os.getenv('POSTGRES_PASSWORD'))
 else:
     with open('variables.env', 'w') as f:
         rand_key = get_random_secret_key()
         generate_pass = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
-        f.write(f'SECRET_KEY={rand_key}\n')
-        f.write(f'LS_USER=db_admin\n')
-        f.write(f'LS_PASS={generate_pass}\n')
+        f.write(f'POSTGRES_USER=db_admin')
+        f.write(f'POSTGRES_PASSWORD={generate_pass}')
+        f.write(f'SECRET_KEY={rand_key}')
+    load_dotenv(find_dotenv('variables.env'))
     SECRET_KEY = str(os.getenv('SECRET_KEY'))
-    DB_USER = str(os.getenv('LS_USER'))
-    DB_PASS = str(os.getenv('LS_PASS'))
+    POSTGRES_USER = str(os.getenv('POSTGRES_USER'))
+    POSTGRES_PASSWORD = str(os.getenv('POSTGRES_PASSWORD'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -104,11 +107,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'posgreSQL_db',
+        'NAME': 'postgres',
 
-        'USER': 'ls_admin',
+        'USER': POSTGRES_USER,
 
-        'PASSWORD': 'ls_password',
+        'PASSWORD': POSTGRES_PASSWORD,
 
         'HOST': 'db',
 

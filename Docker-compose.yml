@@ -1,14 +1,18 @@
 version: "3.9"
 services:
   db:
+    env_file:
+      - variables.env
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=posgreSQL_db
-      - POSTGRES_USER=ls_admin
-      - POSTGRES_PASSWORD=ls_password
+      - POSTGRES_DB:postgres
+      - POSTGRES_USER:${POSTGRES_USER}
+      - POSTGRES_PASSWORD:${POSTGRES_PASSWORD}
   web:
+    env_file:
+      - variables.env
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:

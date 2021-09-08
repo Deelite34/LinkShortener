@@ -14,7 +14,7 @@ class IndexView(View):
     def get(self, request):
         """
         Main webpage view accessed with GET request.
-        Displays empty form, tries to display user links
+        Displays empty form, attempts to display user links
         """
         form = ShortenLinkForm()
         client_ip = get_client_ip(request)
@@ -79,11 +79,11 @@ class IndexView(View):
                 # check if user is allowed to shorten links and return page with error if needed
                 if selected_client.is_banned is True:
                     context['shortening_error'] = "You are banned from shortening links!"
-                    return render(request, 'ShortenerIndex/index.html', context=context)
+                    return render(request, 'ShortenerIndex/index.html', context=context, status=403)
                 if selected_client.urls_count >= 5:
                     context['shortening_error'] = "You have reached 5 shortened links limit. " \
                                                  "Remove at least one of your old links and try again!"
-                    return render(request, 'ShortenerIndex/index.html', context=context)
+                    return render(request, 'ShortenerIndex/index.html', context=context, status=403)
 
                 selected_client.urls_count += 1
                 selected_client.save()

@@ -3,6 +3,7 @@
   width: 40px;
   height: 40px;
   background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .clipboard-icon-check {
@@ -23,11 +24,10 @@
 
 .form-input-url{
   width: max(20%, 230px);
-
 }
 
 .logo {
-  font-size:max(4vw,50px);
+  font-size: max(4vw,50px);
   margin-top: max(50px, 10%);
   margin-bottom: max(80px, 5%);
 }
@@ -36,8 +36,17 @@
   width:150px;
 }
 
+.didnt-find-links {
+  width: 100%;
+  text-align: center;
+}
+
 .table-col-descriptions {
   width: 20%;
+}
+
+.table-col-remove-icon {
+  width: 10px;
 }
 
 .table-my-links{
@@ -54,6 +63,51 @@
   direction: rtl;
 }
 
-.table-overflowx-scrolbar {
+.table-overflowx-scrollbar {
   overflow-y: auto;
+}
+
+.mobile-friendly-width{
+  width:100%;
+  overflow:scroll;
+}
+
+.table-field-side-margin{
+  padding:2px 1vw 2px 1vw;
+}
+
+.footer{
+  position: fixed;
+  width: 100%;
+  background-color:rgb(51, 122, 183);
+  text-align:center;
+  left: 0;
+  bottom: 0;
+  height: max(5%, 50px);
+  box-shadow: 0 -3px 10px 4px rgba(0, 0, 0, 0.2);
+}
+
+.grid-container{
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  grid-gap: 2vw;
+  color:white;
+  height:100%
+
+}
+
+.grid-item{
+  font-color: red;
+  font-size: max(15px, 0.7vw);
+  height:100%;
+  display: flex;
+  align-items: center;
+}
+
+.github-icon {
+  background: url("icons/github.svg");
+  background-repeat: no-repeat;
+  width: 35px;
+  height: 35px;
+  background-size: 100% 100%;
 }

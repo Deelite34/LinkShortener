@@ -4,7 +4,6 @@
     {% load static %}
     <title>Link Shortener</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -36,25 +35,27 @@
     {% endif %}
 
     <div class="collapse" id="collapseExample">
-        <div class="well table-overflowx-scrolbar">
+        <div class="well table-overflowx-scrollbar mobile-friendly-width">
             <div class="table-my-links">
-
-                <table>
-                    <tr class="">
-                        <th class="table-col-descriptions">Link</th>
-                        <th class="table-col-descriptions">Short link</th>
-                        <th class="table-col-descriptions">Created</th>
-                        <th class="table-col-descriptions"></th>
+                {% if current_user_data|length < 1%}
+                    <p class="didnt-find-links"> We couldn't find any url's linked to you</p>
+                {% else %}
+                <table class="mobile-friendly-width">
+                    <tr>
+                        <th class="table-col-descriptions table-field-side-margin">Link</th>
+                        <th class="table-col-descriptions table-field-side-margin">Short link</th>
+                        <th class="table-col-descriptions table-field-side-margin">Created</th>
+                        <th class="table-field-side-margin"></th>
                     </tr>
 
 
                     {% for row in current_user_data %}
-                    <tr>
-                        <th class="text-nowrap table-field-overflow-left"> {{ row.url_input }}</th>
-                        <th class="text-nowrap table-field-overflow-left"><a href="{{ base_url }}{{ row.url_output }}">
+                    <tr class="">
+                        <th class="text-nowrap table-field-overflow-left table-field-side-margin"> {{ row.url_input }}</th>
+                        <th class="text-nowrap table-field-overflow-left table-field-side-margin"><a href="{{ base_url }}{{ row.url_output }}">
                             {{ base_url }}{{ row.url_output }}</a></th>
-                        <th class="text-nowrap table-field-overflow-left"> {{ row.creation_date|date:"G:i d.m.Y" }}</th>
-                        <th class="text-nowrap table-field-overflow-left">
+                        <th class="text-nowrap table-field-overflow-left table-field-side-margin"> {{ row.creation_date|date:"G:i d.m.Y" }}</th>
+                        <th class="text-nowrap table-field-side-margin">
                             <form class="text-center" action="{% url 'redirect' row.url_output %}" method="POST">
                                 {% csrf_token %}
                                 <input class="trash-icon" type="submit" value=""/>
@@ -63,10 +64,20 @@
                     </tr>
                     {% endfor %}
                 </table>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
+
+<footer class="footer">
+    <div class="grid-container">
+        <div class="grid-item">Website created by deelite34</div>
+        <div class="grid-item">
+            <a href="https://github.com/Deelite34"><div class="github-icon"></div></a>
+        </div>
+    </div>
+</footer>
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -75,6 +86,7 @@
         crossorigin="anonymous"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
 </body>
 
 </html>

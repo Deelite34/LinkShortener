@@ -112,14 +112,19 @@ class TestRedirectView(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_link_deletion_on_post(self):
+        """
+        Test deleting users own links with post request to redirect view
+        """
         c = Client()
         url_to_input = "www.wp.pl"
 
         c.post(reverse('index'), data={'url_input': url_to_input})
+        user_object = model_client.objects.get(link__url_input=url_to_input)
         found_url_output = Link.objects.get(url_input=url_to_input)
         c.post(reverse('redirect', kwargs={'url_output': found_url_output.url_output}))
         result = Link.objects.filter(url_input=url_to_input).exists()
 
+        self.assertEqual(user_object.urls_count, 1)
         self.assertFalse(result)
 
     def test_delete_other_users_link(self):

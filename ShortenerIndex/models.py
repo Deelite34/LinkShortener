@@ -18,7 +18,7 @@ class Client(models.Model):
 class Link(models.Model):
     # Only signs needed for creating URL are allowed
     alphabetic = RegexValidator(regex=r'^[a-zA-Z:/.]*$',
-                                message='Only alphabetic and: ":", "/", "." ' +
+                                message='Only alphabetic and ":/." ' +
                                         'characters are allowed in URL to shorten.')
 
     client = models.ForeignKey(Client, on_delete=models.CASCADE)

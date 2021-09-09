@@ -6,10 +6,12 @@
 
 
 Website that allows you to create and share shortened links, after inputting your URL. 
-Uses bootstrap for front-end, postgresql for database and django for back-end.
+Uses Bootstrap for front-end, PostgreSQL for database, Django for back-end, as well as Docker.
 
 # Installation
 Requires docker and docker-compose installed  
+First, we need to run standalone webapp without DB, so required .env file can be created. Shut application down once it fully loads up.  
+`docker-compose -f docker-compose-initial.yml up`  
 While in the same directory as dockerfile, use command:  
 `docker-compose up`  
 Wait until db module loads up fully and shows message in console: `database system is ready to accept connections`, ignore OperationalError error about refused connection in web module  
@@ -21,12 +23,12 @@ Inside launched bash run migrations:
 `python manage.py migrate`  
 You can shut down both windows. In new console window, use command to run the application  
 `docker-compose up`  
-Application can be found at url:  
+Application can be found at local url:  
 `http://localhost:8000/`  
 
 
 # Tests
-Tests for different modules of the website can be run using command
+Tests for different modules of the application can be run using command
 python manage.py test
 
 

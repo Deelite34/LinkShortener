@@ -39,9 +39,9 @@ else:
     with open('variables.env', 'w') as f:
         rand_key = get_random_secret_key()
         generate_pass = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
-        f.write(f'POSTGRES_USER=db_admin')
-        f.write(f'POSTGRES_PASSWORD={generate_pass}')
-        f.write(f'SECRET_KEY={rand_key}')
+        f.write(f'POSTGRES_USER=db_admin\n')
+        f.write(f'POSTGRES_PASSWORD={generate_pass}\n')
+        f.write(f'SECRET_KEY={rand_key}\n')
     load_dotenv(find_dotenv('variables.env'))
     SECRET_KEY = str(os.getenv('SECRET_KEY'))
     POSTGRES_USER = str(os.getenv('POSTGRES_USER'))

@@ -55,11 +55,14 @@ ALLOWED_HOSTS = []
 
 DEFAULT_DOMAIN = 'http://localhost:8000/'
 
+
 # Application definition
 
 INSTALLED_APPS = [
     'ShortenerIndex',
     'API',
+    'rest_framework',
+
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -153,6 +156,7 @@ USE_L10N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -167,3 +171,9 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Rest framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
+}

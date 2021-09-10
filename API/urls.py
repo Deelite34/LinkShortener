@@ -1,7 +1,12 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+from .views import LinkViewSet
+
+router = DefaultRouter()
+router.register(r'links', LinkViewSet, basename='links')
+
 
 urlpatterns = [
-    path('get/', views.get_view),
-    path('post/', views.post_view)
+    path('', include(router.urls))
 ]

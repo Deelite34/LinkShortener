@@ -8,5 +8,5 @@ router.register(r'links', LinkViewSet, basename='links')
 
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls), name='api')
 ]

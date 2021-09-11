@@ -1,17 +1,11 @@
 from django.db.models import F
-from django.http import HttpResponse
-from django.shortcuts import render
-from ShortenerIndex.models import Link, Client
-from ShortenerIndex.utils.utils import get_client_ip
 from rest_framework.response import Response
-
-from .serializers import LinkSerializer
-
-# Create your views here.
 from rest_framework import viewsets
 from rest_framework import status
 
-from ShortenerIndex.utils.utils import random_sequence
+from .serializers import LinkSerializer
+from ShortenerIndex.models import Link, Client
+from ShortenerIndex.utils.utils import random_sequence, get_client_ip
 
 
 class LinkViewSet(viewsets.ViewSet):
@@ -19,7 +13,6 @@ class LinkViewSet(viewsets.ViewSet):
     API view listing all users links
     """
     def retrieve(self, request, pk):
-        print("RETRIEVOWANIE")
         url_output = pk  # Use more descriptive variable for url in our case
         user_ip = get_client_ip(request)
         try:
@@ -36,12 +29,12 @@ class LinkViewSet(viewsets.ViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        #TODO increase link count of user, detect attempt to create 6th or later link
         user_ip = get_client_ip(request)
 
         # create user if he doesnt exist
-        client = Client.objects.get(client_address=user_ip)
-        if not client:
+        try:
+            client = Client.objects.get(client_address=user_ip)
+        except Client.DoesNotExist:
             selected_client = Client(client_address=user_ip)
             selected_client.save()
             client = Client.objects.get(client_address=user_ip)
@@ -53,7 +46,6 @@ class LinkViewSet(viewsets.ViewSet):
         # manually add server-generated fields
         request_data_added_client = request.data
         request_data_added_client['client'] = client
-        #request_data_added_client['client'] = client.id
         request_data_added_client['url_output'] = random_sequence(10)
 
         serializer = LinkSerializer(data=request_data_added_client)
@@ -64,8 +56,6 @@ class LinkViewSet(viewsets.ViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk):
-        print("DESTROYOWANIE")
-        #TODO decrease link count of user when link is deleted
         url_output = pk
         user_ip = get_client_ip(request)
         try:

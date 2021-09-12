@@ -29,7 +29,7 @@ Application can be found at local url:
 
 # Tests
 Tests for different modules of the application can be run using command
-python manage.py test
+`python manage.py test ShortenerIndex API`
 
 
 

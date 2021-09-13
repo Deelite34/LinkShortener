@@ -66,7 +66,7 @@ class TestAPIViewSet(APITestCase):
 
         # Assert
         self.assertEqual(get_note.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(get_note.data), 4)  # 4 fields of created item
+        self.assertEqual(len(get_note.data), 3)  # 3 displayed fields of created item
         self.assertEqual(get_note.data['url_output'], self.default_test_link_url_output)
         self.assertEqual(get_note.data['url_input'], self.default_url_input)
         self.assertEqual(get_nonexistant_note.status_code, status.HTTP_404_NOT_FOUND)
@@ -92,7 +92,7 @@ class TestAPIViewSet(APITestCase):
 
         # Assert
         self.assertEqual(response_correct_data.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(len(response_correct_data.data), 4)  # 4 columns form single Link model row in db
+        self.assertEqual(len(response_correct_data.data), 3)  # 3 columns from single Link model row in db
         self.assertEqual(response_incorrect_data.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response_incorrect_data_2.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response_excess_data_test_fourth_item.status_code, status.HTTP_201_CREATED)

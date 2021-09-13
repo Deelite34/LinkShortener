@@ -1,2 +1,2 @@
-release: python manage.py migrate
+release: python /code/manage.py migrate
 web: gunicorn linkshortener.wsgi --log-file -

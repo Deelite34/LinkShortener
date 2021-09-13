@@ -55,7 +55,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['.herokuapp.com']
 
-DEFAULT_DOMAIN = 'http://localhost:8000/'
+DEFAULT_DOMAIN = 'httpg://localhost:8000/'
 
 
 # Application definition

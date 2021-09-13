@@ -1,11 +1,9 @@
 version: "3.9"
-
 services:
   db:
     env_file:
       - variables.env
     image: postgres
-    restart: always
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:

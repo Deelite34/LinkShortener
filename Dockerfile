@@ -6,3 +6,5 @@ WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
+RUN mkdir -p /app/static
+RUN python manage.py collectstatic --no-input

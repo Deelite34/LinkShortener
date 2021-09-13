@@ -16,6 +16,7 @@ from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv, find_dotenv
 import random
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -70,6 +71,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -105,23 +108,20 @@ WSGI_APPLICATION = 'LinkShortener.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-
         'NAME': 'postgres',
-
         'USER': POSTGRES_USER,
-
         'PASSWORD': POSTGRES_PASSWORD,
-
         'HOST': 'db',
-
         'PORT': '5432',
     }
 }
-
+"""
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(default='DATABASE_URL')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -177,3 +177,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5
 }
+
+django_heroku.settings(locals())

@@ -4,6 +4,7 @@
   <img src="https://user-images.githubusercontent.com/35972878/132550142-b55ce846-ad1c-41a5-89a8-dfabc3a9658d.png" width="555" height="555">
 </p>
 
+<h3> Note: this is a branch used for deployment of heroku preview website of the application. To be able to install application, use local-server branch.</h3>  
 
 Website that allows you to create and share shortened links, after inputting your URL. 
 Uses Bootstrap for front-end, PostgreSQL for database, Django for back-end, as well as Docker.

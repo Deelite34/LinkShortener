@@ -53,7 +53,7 @@ else:
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.herokuapp.com']
 
 DEFAULT_DOMAIN = 'http://localhost:8000/'
 

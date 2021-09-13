@@ -5,6 +5,7 @@ services:
     env_file:
       - variables.env
     image: postgres
+    restart: always
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
@@ -15,7 +16,7 @@ services:
     env_file:
       - variables.env
     build: .
-    #command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:

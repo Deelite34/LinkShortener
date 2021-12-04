@@ -14,6 +14,14 @@ Features basic responsiveness, allowing it to look fine on mobile.
 Website is deployed on Heroku, and functionalities can be tested.  
 https://linkshortener-deelite.herokuapp.com/
 
+# Features
+- Uses Django, Django rest framework, docker, docker-compose, postgresql
+- Front-end styling created using bootstrap
+- Creation, deletion, and display of up to 5 shortened links owned by specific user
+- User is identified by his ip address, can be blocked in django admin page
+- API docs, 
+- Deployed for live preview on heroku
+
 # Rest API
 Website has rest API module, requests can be sent to URL https://linkshortener-deelite.herokuapp.com/api/links/  
 API is documented on subsite, where you can check possible actions. https://linkshortener-deelite.herokuapp.com/api/swagger/  

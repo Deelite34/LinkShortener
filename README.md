@@ -10,10 +10,6 @@ Website that allows you to create and share shortened links, after inputting you
 Uses Bootstrap for front-end, PostgreSQL for database, Django for back-end, as well as Docker + docker-compose.
 Features basic responsiveness, allowing it to look fine on mobile.
 
-# Preview
-Website is deployed on Heroku, and functionalities can be tested.  
-https://linkshortener-deelite.herokuapp.com/
-
 # Features
 - Uses Django, Django rest framework, docker, docker-compose, postgresql
 - Front-end styling created using bootstrap
